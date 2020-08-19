@@ -29,5 +29,5 @@ path_to_eula=my/eula.txt,my/eula.md,my/eula.pdf,my/eula.docx
 python eulascript/eula.py --model_folder $model_folder --path_to_eula $path_to_eula --output_dir $output_dir
 ```
 
-**Note**: the [samples](samples) folder contains some user licenses and a [notebook](samples/notebook.ipynb) illustrating 
+**Note**: the [samples](samples) folder contains some user licenses and a [notebook](notebook.ipynb) illustrating all. 
 

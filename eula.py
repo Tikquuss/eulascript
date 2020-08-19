@@ -32,6 +32,8 @@ def main(params):
     predict_method = get_ktrain_predict_method(ktrain_predictor = ktrain.load_predictor(params.model_folder))      
     
     for eula_file in params.eula_files :
+
+        print("============ eula_file : ", eula_file, " ============")
         
         clause_list = get_content(eula_file)
         
@@ -49,6 +51,8 @@ def main(params):
                 i += 1
             csv_file = file_name+'.'+str(i)+'.csv'
 
+        print("============ csv_file : ", csv_file, " ============")
+        
         pd.DataFrame(zip(clause_list, labels, probabilities)).to_csv(csv_file, header= ["clauses", "labels", "probabilities"])
 
 if __name__ == '__main__':
