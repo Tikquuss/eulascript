@@ -16,7 +16,7 @@ def get_parser():
 
     # main parameters
     parser.add_argument("--model_folder", type=str, default="", 
-                        help="folder containing the model : tf_model.preproc, config.json and tf_model.h5")
+                        help="folder (link of folder) containing the model : tf_model.preproc, config.json and tf_model.h5")
     parser.add_argument("--path_to_eula", type=str, default="", 
                         help="liste des fichiers (pdf, docx, txt et md) de licence, separé par la virgule : path_to_file1,path_to_file2,...")
     parser.add_argument("--output_dir", type=str, default="", 
@@ -29,17 +29,12 @@ def get_parser():
   
 def main(params):
 
-    reloaded_predictor = ktrain.load_predictor(params.model_folder)
-
-    predict_method = get_ktrain_predict_method(
-                                ktrain_predictor = reloaded_predictor
-                            )      
-    print("params.eula_files", params.eula_files)
+    predict_method = get_ktrain_predict_method(ktrain_predictor = ktrain.load_predictor(params.model_folder))      
+    
     for eula_file in params.eula_files :
         
         clause_list = get_content(eula_file)
-        print("clause_list", clause_list)
-        print(type(clause_list))
+        
         probabilities = predict_method(clause_list)
         labels = [1 if y >= 0.5 else 0 for y in probabilities]
 
@@ -47,15 +42,14 @@ def main(params):
         file_name, _ = os.path.splitext(file_name) 
 
         csv_file = file_name+".csv"
+        
         if os.path.isfile(csv_file):
             i = 1
             while os.path.isfile(file_name+'.'+str(i)+".csv"):
                 i += 1
             csv_file = file_name+'.'+str(i)+'.csv'
 
-        pd.DataFrame(
-            zip(clause_list, labels, probabilities)
-        ).to_csv(csv_file, header= ["clauses", "labels", "probabilities"])
+        pd.DataFrame(zip(clause_list, labels, probabilities)).to_csv(csv_file, header= ["clauses", "labels", "probabilities"])
 
 if __name__ == '__main__':
 
@@ -67,8 +61,7 @@ if __name__ == '__main__':
     assert params.model_folder
     if params.model_folder.startswith("http:") or params.model_folder.startswith("https:") :
         assert validators.url(params.model_folder)
-        url = params.model_folder
-        url = url.split("/")
+        url = params.model_folder.split("/")
         model_name = url[-1]
         base_url = '/'.join(url[:len(url)-1])+"/"
         to_load = {

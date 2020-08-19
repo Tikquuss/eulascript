@@ -6,12 +6,16 @@ import os
 import shutil
 import numpy as np
 
-def path_leaf(path):
-    # source : https://stackoverflow.com/questions/8384737/extract-file-name-from-path-no-matter-what-the-os-path-format
+def path_leaf(path : str):
+    """
+    Returns the name of a file given its path
+    https://stackoverflow.com/questions/8384737/extract-file-name-from-path-no-matter-what-the-os-path-format
+    """
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
 
 def is_supported(file_name : str):
+    """Verifies if a file is supported by the application"""
     supported_extension = [".txt", ".md", ".pdf", ".doc", ".docx"]
     _, extension = os.path.splitext(file_name) 
     if extension in supported_extension :
@@ -20,9 +24,12 @@ def is_supported(file_name : str):
         return False
 
 def text_is_valid(text : str):
+    """Verifies if a clause is treatable/scalable"""
     return text.strip().rstrip().replace("\n", "").replace("\r", "").replace("\t", "") # != ""
 
 def get_content(document):
+    """reads and separates a document file (pdf, docx, doc, txt, md) into a list of clauses"""
+
     _, extension = os.path.splitext(document)
     
     if extension == ".pdf" :
@@ -33,16 +40,17 @@ def get_content(document):
     elif extension in [".doc", ".docx"] :
         doc = docx.Document(open(document, "rb"))
         content = doc.paragraphs
-        content = [para.text for para in content if text_is_valid(text = para.text)][:3]
+        content = [para.text for para in content if text_is_valid(text = para.text)]
       
     else :
         content = open(document, "r").read()
-        content = content if text_is_valid(text = content) else ""
-        content = content.split("\n")
+        content = content.split("\n") if text_is_valid(text = content) else []
 
     return content
 
 def get_ktrain_predict_method(ktrain_predictor):
+    """Returns the prediction method from a ktrain predictor"""
+
     def predict_method(eula):
         if type(eula) == str :
             eula = [eula]
@@ -67,6 +75,7 @@ def get_ktrain_predict_method(ktrain_predictor):
 def download(output_path, to_load, base_url = "", free_after_download_and_load = False):
           
     cache_path = output_path
+    
     if not os.path.isdir(cache_path):
         os.mkdir(cache_path)
 
