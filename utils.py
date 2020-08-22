@@ -230,6 +230,7 @@ def get_content(document):
         clauses = {i : clause for i, clause in enumerate(content)}
 
     else :
+        content = open(document, "r").read()
         content = content if text_is_valid(text = content) else ""
         join = "\n\n"
         content = content.split(join)

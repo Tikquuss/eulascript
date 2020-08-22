@@ -68,7 +68,7 @@ def thread_target(eula_file, predict_method) :
 
 def main(params):
 
-    if a :
+    if params.a :
         predict_method = get_ktrain_predict_method(ktrain_predictor = ktrain.load_predictor(params.model_folder))  
     else :
         from logistic_regression import get_predict_method
@@ -96,13 +96,14 @@ if __name__ == '__main__':
         }
         download(output_path = params.cache_path, to_load = to_load, base_url = base_url)
         params.model_folder = os.path.join(params.cache_path, model_name)
+        params.a = True
     else :
         a = os.path.isdir(params.model_folder)
         b = params.logistic_regression in ["bag_of_word","tf_idf","bert"]
         assert a or b, "model folder path not found"
         if a :
             assert all([os.path.isfile(os.path.join(params.model_folder, f)) for f in ["tf_model.preproc", "config.json" , "tf_model.h5"]])
-
+        params.a = a
 
     eula_files = params.path_to_eula.split(",")
     assert eula_files
