@@ -47,8 +47,14 @@ def thread_target(eula_file, predict_method) :
     clause_list = list(clause_dic.values())
     clauses_key = list(clause_dic.keys())
 
-    probabilities = predict_method(clause_list)
-    labels = [1 if y >= 0.5 else 0 for y in probabilities]
+    Y = predict_method(clause_list)
+
+    labels, probabilities = [], []
+    
+    for y in Y :
+        a = max(y)
+        probabilities.append(a)
+        labels.append(y.index(a))
 
     file_name = path_leaf(path = eula_file)
     file_name, _ = os.path.splitext(file_name) 

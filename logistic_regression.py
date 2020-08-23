@@ -88,7 +88,7 @@ def mybag_predict(eula):
         clause = text_prepare(clause)
         vec = my_bag_of_words(clause , WORDS_TO_INDEX, DICT_SIZE)
         y = classifier_mybag.predict_proba([vec])[0]
-        output.append(y[1])
+        output.append(y)
     
     return output
 
@@ -101,7 +101,7 @@ def tfidf_predict(eula):
     for clause in eula :
         vec = tfidf_vectorizer.transform([text_prepare(clause)])
         y = classifier_tfidf.predict_proba(vec)[0]        
-        output.append(y[1])
+        output.append(y)
 
     return output
 
