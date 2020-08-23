@@ -17,10 +17,10 @@ pip install -r eulascript/requirements.txt
 
 # 3 - Try
 
-* **model_folder** : directory (or url of the directory) where the model is located (must contain the following three files: `tf_model.preproc`, `config.json` and `tf_model.h5`). In the case of a url the three previous files are downloaded automatically.
+* **model_folder** : directory (or url of the directory) where the model is located (must contain the following three files: `tf_model.preproc`, `config.json` and `tf_model.h5`). In the case of a url the three previous files are downloaded automatically. You can use the pre-trained models directly from [huggingface](https://huggingface.co/transformers/), but [this notebook](samples/public-transformers_in_ktrain.ipynb) illustrates how to fine-tune these models (bert, distilbert, albert, roberta, xlnet) on our [dataset](https://drive.google.com/file/d/1eyGBYLpOPsvif0iomTBxjHtXoiY8gnLE/view?usp=sharing) with the [ktrain](https://pypi.org/project/ktrain/) library.
 * **output_dir** : folder in which the csv file(s) containing the results (in the format: `clause, label, probability`) will be stored (the name of the created file starts with the name, without extension, of the original file containing the license, followed optionally by a number to avoid file collisions)
 * **path_to_eula** : comma-separated list of documents (`txt, md, pdf and docx`) containing the licenses to be analyzed
-* **logistic_regression** :  this parameter can be provided at the expense of **model_folder** in order to use one of the pre-trained logistic regression models (must be obligatorily made from these three models: bag_of_word, tf_idf or bert). This parameter is ignored if it is passed at the same time as **model_folder**
+* **logistic_regression** :  this parameter can be provided at the expense of **model_folder** in order to use one of the [pre-trained logistic regression models](production.pth) (must be obligatorily made from these three models: bag_of_word, tf_idf or bert). This parameter is ignored if it is passed at the same time as **model_folder**. This [notebook](samples/logistic_regression.ipynb) illustrates the process of obtaining the [production.pth](production.pth) file.
 
 ```
 model_folder=my/model_dir_or_url
