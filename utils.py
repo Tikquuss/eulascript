@@ -253,11 +253,11 @@ def get_ktrain_predict_method(ktrain_predictor):
         for text in eula :
             y = predictor(text)
             if type(y) == np.ndarray :
-                #output.append({"acceptability" : float(y[1]), "unacceptability" : float(y[0])})
-                output.append(y[1])
-            else :
-                #output.append({"acceptability" : int(y), "unacceptability" : int(1-y)})
+                #output.append({"acceptability" : float(y[0]), "unacceptability" : float(y[1])})
                 output.append(y)
+            else :
+                #output.append({"acceptability" : int(1-y), "unacceptability" : int(y)})
+                output.append([1-y, y])
                 
         return output
     

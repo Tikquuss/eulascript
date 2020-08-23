@@ -57,7 +57,9 @@ def thread_target(eula_file, predict_method) :
         labels.append(y.index(a))
 
     file_name = path_leaf(path = eula_file)
-    file_name, _ = os.path.splitext(file_name) 
+    file_name, extension = os.path.splitext(file_name) 
+
+    file_name = file_name + "_" + extension.replace(".", "")
 
     csv_file = file_name+".csv"
         
@@ -69,8 +71,8 @@ def thread_target(eula_file, predict_method) :
 
     print("============ csv_file : ", csv_file, " ============")
           
-    pd.DataFrame(zip(clauses_key, clause_list, labels, probabilities)).to_csv(csv_file, header= ["clauses_key" ,"clauses", "labels", "probabilities"])
-
+    #pd.DataFrame(zip(clauses_key, clause_list, labels, probabilities)).to_csv(csv_file, header= ["clauses_id" ,"clauses", "labels", "probabilities"])
+    pd.DataFrame(zip(clause_list, labels, probabilities)).to_csv(csv_file, header= ["clauses", "labels", "probabilities"])
 
 def main(params):
 
@@ -82,7 +84,8 @@ def main(params):
         
     
     for eula_file in params.eula_files :
-      Thread(target = thread_target,  kwargs={"eula_file" : eula_file, "predict_method" : predict_method}).start()
+        #Thread(target = thread_target,  kwargs={"eula_file" : eula_file, "predict_method" : predict_method}).start()
+        thread_target(eula_file, predict_method)
 
 if __name__ == '__main__':
 
