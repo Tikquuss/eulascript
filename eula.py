@@ -28,7 +28,7 @@ def get_parser():
                         help="folder in which the models will be stored temporarily")
 
     parser.add_argument("--logistic_regression", type=str, default="", 
-                        help="bag_of_word or tf_idf or bert")
+                        help="bag_of_word or tf_idf or bert or distilbert")
 
 
     
@@ -70,6 +70,7 @@ def thread_target(eula_file, predict_method) :
         csv_file = file_name+'.'+str(i)+'.csv'
 
     print("============ csv_file : ", csv_file, " ============")
+    print()
           
     #pd.DataFrame(zip(clauses_key, clause_list, labels, probabilities)).to_csv(csv_file, header= ["clauses_id" ,"clauses", "labels", "probabilities"])
     pd.DataFrame(zip(clause_list, labels, probabilities)).to_csv(csv_file, header= ["clauses", "labels", "probabilities"])
@@ -108,7 +109,7 @@ if __name__ == '__main__':
         params.a = True
     else :
         a = os.path.isdir(params.model_folder)
-        b = params.logistic_regression in ["bag_of_word","tf_idf","bert"]
+        b = params.logistic_regression in ["bag_of_word","tf_idf","bert", "distilbert"]
         assert a or b, "model folder path not found"
         if a :
             assert all([os.path.isfile(os.path.join(params.model_folder, f)) for f in ["tf_model.preproc", "config.json" , "tf_model.h5"]])

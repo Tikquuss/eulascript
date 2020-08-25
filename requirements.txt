@@ -6,3 +6,5 @@ validators
 git+https://github.com/Tikquuss/ktrain.git#egg=ktrain
 PyMuPDF
 threaded
+transformers
+torch
